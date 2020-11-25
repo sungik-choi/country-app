@@ -1,0 +1,49 @@
+{
+  "name": "country-app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "styled-components": "^5.2.1",
+    "webpack-merge": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-redux": "^7.1.11",
+    "@types/styled-components": "^5.1.4",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "dotenv-webpack": "^6.0.0",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "html-webpack-plugin": "^4.5.0",
+    "prettier": "^2.2.0",
+    "terser-webpack-plugin": "^5.0.3",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.1.2",
+    "webpack": "^5.6.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sungik-choi/country-app.git"
+  },
+  "author": "Sungik Choi <sungik.dev@gmail.com> (http://sungikchoi.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sungik-choi/country-app/issues"
+  },
+  "homepage": "https://github.com/sungik-choi/country-app#readme",
+  "description": ""
+}
