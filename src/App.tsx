@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCountryList, switchOrder, deleteCountry, searchCountry } from "./reducers/country";
+import { getCountryList, switchOrder, deleteCountry, searchCountry, ICountry, addCountry } from "./reducers/country";
 import { RootState } from "./store";
 import useDebounce from "./hooks/useDebounce";
+import { useForm } from "react-hook-form";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -20,6 +21,13 @@ const App = (): JSX.Element => {
   const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
   const displayedList = isSearchValueEmpty ? countries : filteredList;
 
+  const { register, handleSubmit, errors } = useForm();
+
+  const onSubmit = (data: ICountry, e: any) => {
+    dispatch(addCountry(data));
+    e.target.reset();
+  };
+
   useEffect(() => {
     dispatch(getCountryList);
   }, [dispatch]);
@@ -30,8 +38,17 @@ const App = (): JSX.Element => {
         <p>loading...</p>
       ) : (
         <>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input name="name" placeholder="나라 이름" ref={register({ required: true })} />
+            <input name="alpha2Code" placeholder="2자리 영어코드" ref={register({ required: true })} />
+            <input name="callingCodes" placeholder="숫자 코드" ref={register({ required: true })} />
+            <input name="capital" placeholder="수도" ref={register({ required: true })} />
+            <input name="region" placeholder="대륙" ref={register({ required: true })} />
+            {/* {errors.exampleRequired && <span>This field is required</span>} */}
+            <button>나라 세우기</button>
+          </form>
           <div>
-            <input name="search" type="text" onChange={(e) => changeSearchValue(e)} />
+            <input name="search" placeholder="검색어를 입력하세요" type="text" onChange={changeSearchValue} />
           </div>
           <button onClick={sortOrderChange}>정렬 변경</button>
           <table>

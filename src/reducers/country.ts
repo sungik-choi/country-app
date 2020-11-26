@@ -114,7 +114,12 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
   console.log(action);
   switch (action.type) {
     case ADD_COUNTRY: {
-      return { ...state, countries: [...state.countries, action.payload] };
+      const isFiltered = state.searchValue !== "";
+      return {
+        ...state,
+        countries: [action.payload, ...state.countries],
+        filteredList: isFiltered ? [action.payload, ...state.filteredList] : [],
+      };
     }
     case DELETE_COUNTRY: {
       const isFiltered = state.searchValue !== "";
