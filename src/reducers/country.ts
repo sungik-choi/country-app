@@ -1,4 +1,7 @@
-import axios from "axios";
+import { Action } from "redux";
+import { ASCENDING, DESCENDING } from "../constants/order";
+import createAction from "../utils/createAction";
+import { ThunkDispatch } from "redux-thunk";
 
 export interface ICountry {
   name: string;
@@ -8,9 +11,6 @@ export interface ICountry {
   region: string;
 }
 
-export const ASCENDING = "ASCENDING";
-export const DESCENDING = "DESCENDING";
-
 export interface ICountryState {
   loading: boolean;
   errorMessage: string | null;
@@ -18,15 +18,6 @@ export interface ICountryState {
   order: typeof ASCENDING | typeof DESCENDING;
   countries: ICountry[];
 }
-
-export const GET_COUNTRY_DATA = "country/GET_DATA";
-export const GET_COUNTRY_DATA_SUCCESS = "country/GET_DATA_SUCCESS";
-export const GET_COUNTRY_DATA_ERROR = "country/GET_DATA_ERROR";
-
-export const ADD_COUNTRY = "country/ADD_COUNTRY";
-export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
-export const SEARCH_COUNTRY = "country/SEARCH_COUNTRY";
-export const SWITCH_ORDER = "country/SWITCH_ORDER";
 
 interface IAddCountryAction {
   type: typeof ADD_COUNTRY;
@@ -38,32 +29,79 @@ interface IDeleteCountryAction {
   payload: string;
 }
 
-export type CountryActionTypes = IAddCountryAction | IDeleteCountryAction;
+interface ISearchCountryAction {
+  type: typeof SEARCH_COUNTRY;
+  payload: string;
+}
 
-export const addCountry = (countryData: ICountry): CountryActionTypes => ({
-  type: ADD_COUNTRY,
-  payload: countryData,
-});
+interface ISwitchOrderAction {
+  type: typeof SWITCH_ORDER;
+}
 
-export const deleteCountry = (name: string): IDeleteCountryAction => ({
-  type: DELETE_COUNTRY,
-  payload: name,
-});
+interface IGetDataRequest {
+  type: typeof GET_COUNTRY_DATA_REQUEST;
+}
 
-export const searchCountry = (word: string) => ({
-  type: SEARCH_COUNTRY,
-  payload: word,
-});
+interface IGetDataSuccess {
+  type: typeof GET_COUNTRY_DATA_SUCCESS;
+  payload: ICountry[];
+}
+
+interface IGetDateFailure {
+  type: typeof GET_COUNTRY_DATA_FAILURE;
+  payload: string;
+}
+
+export type CountryActionTypes =
+  | IAddCountryAction
+  | IDeleteCountryAction
+  | ISearchCountryAction
+  | ISwitchOrderAction
+  | IGetDataRequest
+  | IGetDataSuccess
+  | IGetDateFailure;
+
+export const ADD_COUNTRY = "country/ADD_COUNTRY";
+export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
+export const SEARCH_COUNTRY = "country/SEARCH_COUNTRY";
+export const SWITCH_ORDER = "country/SWITCH_ORDER";
+
+export const GET_COUNTRY_DATA_REQUEST = "country/GET_DATA_REQUEST";
+export const GET_COUNTRY_DATA_SUCCESS = "country/GET_DATA_SUCCESS";
+export const GET_COUNTRY_DATA_FAILURE = "country/GET_DATA_FAILURE";
+
+export const addCountry = createAction(ADD_COUNTRY);
+export const deleteCountry = createAction(DELETE_COUNTRY);
+export const searchCountry = createAction(SEARCH_COUNTRY);
+export const switchOrder = createAction(SWITCH_ORDER);
+
+export const getCountryDataRequest = createAction(GET_COUNTRY_DATA_REQUEST);
+export const getCountryDataSuccess = createAction(GET_COUNTRY_DATA_SUCCESS);
+export const getCountryDataFailure = createAction(GET_COUNTRY_DATA_FAILURE);
+
+export const getCountryList = async (dispatch: any) => {
+  dispatch(getCountryDataRequest());
+  try {
+    const response = await fetch(
+      "https://restcountries.eu/rest/v2/all?fields=alpha2Code;capital;name;region;callingCodes",
+    );
+    const json = await response.json();
+    dispatch(getCountryDataSuccess(json));
+  } catch (e) {
+    dispatch(getCountryDataFailure(e));
+  }
+};
 
 const initialState: ICountryState = {
   loading: true,
   errorMessage: null,
   searchWord: "",
-  order: "ASCENDING",
+  order: ASCENDING,
   countries: [],
 };
 
-const countryReducer = (state = initialState, action: any): ICountryState => {
+const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {
+  console.log(action);
   switch (action.type) {
     case ADD_COUNTRY: {
       return { ...state, countries: [...state.countries, action.payload] };
@@ -82,16 +120,18 @@ const countryReducer = (state = initialState, action: any): ICountryState => {
     case SWITCH_ORDER: {
       return { ...state, order: state.order === ASCENDING ? DESCENDING : ASCENDING };
     }
+    case GET_COUNTRY_DATA_REQUEST: {
+      return { ...state, loading: true, errorMessage: null };
+    }
+    case GET_COUNTRY_DATA_SUCCESS: {
+      return { ...state, countries: action.payload, loading: false, errorMessage: null };
+    }
+    case GET_COUNTRY_DATA_FAILURE: {
+      return { ...state, loading: false, errorMessage: action.payload };
+    }
     default:
       return state;
   }
-};
-
-export const getCountryList = async (): Promise<ICountry> => {
-  const response = await axios.get<ICountry>(
-    "https://restcountries.eu/rest/v2/all?fields=alpha2Code;capital;name;region;callingCodes",
-  );
-  return response.data;
 };
 
 export default countryReducer;
