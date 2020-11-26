@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-// import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountryList, switchOrder, deleteCountry, searchCountry } from "./reducers/country";
 import { RootState } from "./store";
+import useDebounce from "./hooks/useDebounce";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -11,10 +11,11 @@ const App = (): JSX.Element => {
   const countries = useSelector((state: RootState) => state.country.countries);
   const filteredList = useSelector((state: RootState) => state.country.filteredList);
   const headerList = useSelector((state: RootState) => state.country.headerList);
+  const { setState: setInputValue } = useDebounce(dispatch, searchCountry, 500);
 
   const sortOrderChange = () => dispatch(switchOrder());
   const deleteList = (name: string) => dispatch(deleteCountry(name));
-  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => dispatch(searchCountry(e.target.value));
+  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
 
   const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
   const displayedList = isSearchValueEmpty ? countries : filteredList;
