@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCountryList, switchOrder, deleteCountry } from "./reducers/country";
 import { RootState } from "./store";
 
-const headerList = ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"];
-
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.country.loading);
   const countries = useSelector((state: RootState) => state.country.countries);
+  const headerList = useSelector((state: RootState) => state.country.headerList);
 
   const sortOrderChange = () => dispatch(switchOrder());
   const deleteList = (name: string) => dispatch(deleteCountry(name));

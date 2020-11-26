@@ -15,6 +15,7 @@ export interface ICountryState {
   searchWord: string;
   order: typeof ASCENDING | typeof DESCENDING;
   countries: ICountry[];
+  headerList: string[];
 }
 
 interface IAddCountryAction {
@@ -82,6 +83,9 @@ export const getCountryList = async (dispatch: any) => {
   try {
     const response = await fetch(
       "https://restcountries.eu/rest/v2/all?fields=alpha2Code;capital;name;region;callingCodes",
+      {
+        method: "GET",
+      },
     );
     const json = await response.json();
     dispatch(getCountryDataSuccess(json));
@@ -96,6 +100,7 @@ const initialState: ICountryState = {
   searchWord: "",
   order: ASCENDING,
   countries: [],
+  headerList: ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"],
 };
 
 const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {
