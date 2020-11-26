@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCountryList, switchOrder } from "./reducers/country";
+import { getCountryList, switchOrder, deleteCountry } from "./reducers/country";
 import { RootState } from "./store";
 
-const headerList = ["이", "Alphabet-2", "Calling Code", "Capital", "Region"];
+const headerList = ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"];
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.country.loading);
   const countries = useSelector((state: RootState) => state.country.countries);
+
+  const sortOrderChange = () => dispatch(switchOrder());
+  const deleteList = (name: string) => dispatch(deleteCountry(name));
 
   useEffect(() => {
     dispatch(getCountryList);
@@ -21,22 +24,27 @@ const App = (): JSX.Element => {
       ) : (
         <>
           <div></div>
-          <button onClick={() => dispatch(switchOrder())}>정렬 변경</button>
+          <button onClick={sortOrderChange}>정렬 변경</button>
           <table>
             <caption>World Country Information</caption>
             <thead>
-              {headerList.map((list) => (
-                <th>{list}</th>
-              ))}
+              <tr>
+                {headerList.map((list) => (
+                  <th key={list}>{list}</th>
+                ))}
+              </tr>
             </thead>
             {countries.map(({ name, alpha2Code, callingCodes, capital, region }) => (
-              <tbody>
+              <tbody key={name}>
                 <tr>
                   <td>{name}</td>
                   <td>{alpha2Code}</td>
                   <td>{[...callingCodes]}</td>
                   <td>{capital}</td>
                   <td>{region}</td>
+                  <td>
+                    <button onClick={() => deleteList(name)}>삭제</button>
+                  </td>
                 </tr>
               </tbody>
             ))}

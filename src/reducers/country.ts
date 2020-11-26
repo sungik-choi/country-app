@@ -1,7 +1,5 @@
-import { Action } from "redux";
 import { ASCENDING, DESCENDING } from "../constants/order";
 import createAction from "../utils/createAction";
-import { ThunkDispatch } from "redux-thunk";
 
 export interface ICountry {
   name: string;
@@ -118,7 +116,17 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
       };
     }
     case SWITCH_ORDER: {
-      return { ...state, order: state.order === ASCENDING ? DESCENDING : ASCENDING };
+      return state.order === ASCENDING
+        ? {
+            ...state,
+            order: DESCENDING,
+            countries: [...state.countries].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0)),
+          }
+        : {
+            ...state,
+            order: ASCENDING,
+            countries: [...state.countries].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
+          };
     }
     case GET_COUNTRY_DATA_REQUEST: {
       return { ...state, loading: true, errorMessage: null };
