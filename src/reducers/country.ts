@@ -12,9 +12,10 @@ export interface ICountry {
 export interface ICountryState {
   loading: boolean;
   errorMessage: string | null;
-  searchWord: string;
+  searchValue: string;
   order: typeof ASCENDING | typeof DESCENDING;
   countries: ICountry[];
+  filteredList: ICountry[];
   headerList: string[];
 }
 
@@ -97,11 +98,17 @@ export const getCountryList = async (dispatch: any) => {
 const initialState: ICountryState = {
   loading: true,
   errorMessage: null,
-  searchWord: "",
+  searchValue: "",
   order: ASCENDING,
   countries: [],
+  filteredList: [],
   headerList: ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"],
 };
+
+// const sortAscend = (arr: any, key: string) => arr.sort((a, b) => (a[key] > b[key] ? -1 : b[key] > a[key] ? 1 : 0))
+// const sortDescend = (arr: any , key: string) => arr.sort((a, b) => (a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0))
+
+// const filteredListByKey = (arr: any, key: string, target: string) => arr.filter((item) => item[key] !== target);
 
 const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {
   console.log(action);
@@ -110,34 +117,51 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
       return { ...state, countries: [...state.countries, action.payload] };
     }
     case DELETE_COUNTRY: {
-      return { ...state, countries: state.countries.filter((country) => country.name !== action.payload) };
-    }
-    case SEARCH_COUNTRY: {
+      const isFiltered = state.searchValue !== "";
       return {
         ...state,
-        countries: state.countries.filter((country) =>
-          country.name.toUpperCase().includes(action.payload.toUpperCase()),
-        ),
+        countries: state.countries.filter((country) => country.name !== action.payload),
+        filteredList: isFiltered
+          ? state.filteredList.filter((country) => country.name !== action.payload)
+          : state.filteredList,
+      };
+    }
+    case SEARCH_COUNTRY: {
+      const inputValue = action.payload?.trim()?.toLowerCase() || "";
+      const isFiltered = inputValue !== "";
+      return {
+        ...state,
+        searchValue: inputValue,
+        filteredList: isFiltered
+          ? state.countries.filter((country) => country.name.toLowerCase().includes(inputValue))
+          : state.filteredList,
       };
     }
     case SWITCH_ORDER: {
+      const isFiltered = state.searchValue !== "";
       return state.order === ASCENDING
         ? {
             ...state,
             order: DESCENDING,
             countries: [...state.countries].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0)),
+            filteredList: isFiltered
+              ? [...state.filteredList].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0))
+              : state.filteredList,
           }
         : {
             ...state,
             order: ASCENDING,
             countries: [...state.countries].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
+            filteredList: isFiltered
+              ? [...state.filteredList].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+              : state.filteredList,
           };
     }
     case GET_COUNTRY_DATA_REQUEST: {
       return { ...state, loading: true, errorMessage: null };
     }
     case GET_COUNTRY_DATA_SUCCESS: {
-      return { ...state, countries: action.payload, loading: false, errorMessage: null };
+      return { ...state, loading: false, errorMessage: null, countries: action.payload };
     }
     case GET_COUNTRY_DATA_FAILURE: {
       return { ...state, loading: false, errorMessage: action.payload };
