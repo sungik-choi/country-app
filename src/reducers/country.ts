@@ -121,9 +121,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
       return {
         ...state,
         countries: state.countries.filter((country) => country.name !== action.payload),
-        filteredList: isFiltered
-          ? state.filteredList.filter((country) => country.name !== action.payload)
-          : state.filteredList,
+        filteredList: isFiltered ? state.filteredList.filter((country) => country.name !== action.payload) : [],
       };
     }
     case SEARCH_COUNTRY: {
@@ -134,7 +132,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         searchValue: inputValue,
         filteredList: isFiltered
           ? state.countries.filter((country) => country.name.toLowerCase().includes(inputValue))
-          : state.filteredList,
+          : [],
       };
     }
     case SWITCH_ORDER: {
@@ -146,7 +144,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
             countries: [...state.countries].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0)),
             filteredList: isFiltered
               ? [...state.filteredList].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0))
-              : state.filteredList,
+              : [],
           }
         : {
             ...state,
@@ -154,7 +152,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
             countries: [...state.countries].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
             filteredList: isFiltered
               ? [...state.filteredList].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
-              : state.filteredList,
+              : [],
           };
     }
     case GET_COUNTRY_DATA_REQUEST: {
