@@ -26,8 +26,21 @@ const App = (): JSX.Element => {
 
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data: ICountry, e: any) => {
-    dispatch(addCountry(data));
+  interface INewCountry {
+    name: string;
+    alpha2Code: string;
+    callingCodes: string;
+    capital: string;
+    region: string;
+  }
+
+  const onSubmit = (data: INewCountry, e: any) => {
+    dispatch(
+      addCountry({
+        ...data,
+        callingCodes: data.callingCodes.split(","),
+      }),
+    );
     e.target.reset();
   };
 
@@ -68,7 +81,7 @@ const App = (): JSX.Element => {
                 <tr>
                   <td>{name}</td>
                   <td>{alpha2Code}</td>
-                  <td>{[...callingCodes]}</td>
+                  <td>{callingCodes.join(",")}</td>
                   <td>{capital}</td>
                   <td>{region}</td>
                   <td>
