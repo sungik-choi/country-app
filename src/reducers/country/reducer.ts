@@ -19,7 +19,7 @@ const initialState: ICountryState = {
   order: ASCENDING,
   countries: [],
   filteredList: [],
-  headerList: ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"],
+  headerList: ["Name", "Alpha2", "Calling Code", "Capital", "Region", "Delete"],
 };
 
 const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {

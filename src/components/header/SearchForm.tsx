@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { switchOrder, searchCountry } from "../../reducers/country/actions";
 
@@ -15,10 +16,29 @@ const SearchForm = (): JSX.Element => {
 
   return (
     <div>
-      <input name="search" placeholder="검색어를 입력하세요" type="text" onChange={changeSearchValue} />
-      <button onClick={sortOrderChange}>정렬 변경</button>
+      <SearchInput
+        type="text"
+        name="search"
+        aria-label="나라 검색"
+        placeholder="검색어를 입력하세요"
+        onChange={changeSearchValue}
+      />
+      <SortButton type="button" aria-label="정렬 순서 변경" onClick={sortOrderChange}>
+        정렬 순서 변경
+      </SortButton>
     </div>
   );
 };
+
+const SearchInput = styled.input`
+  width: ${({ theme }) => theme.searchInputWidth};
+  margin: ${({ theme }) => theme.size.sm} 0;
+  padding: ${({ theme }) => theme.size.sm} ${({ theme }) => theme.size.md};
+`;
+
+const SortButton = styled.button`
+  margin-left: ${({ theme }) => theme.size.md};
+  padding: ${({ theme }) => theme.size.sm} ${({ theme }) => theme.size.md};
+`;
 
 export default SearchForm;

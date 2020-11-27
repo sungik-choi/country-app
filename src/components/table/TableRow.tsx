@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { ICountry } from "../../reducers/country/types";
 import { deleteCountry } from "../../reducers/country/actions";
@@ -15,15 +16,34 @@ const TableRow = ({ data }: IProps): JSX.Element => {
   return (
     <tr>
       <td>{name}</td>
-      <td>{alpha2Code}</td>
-      <td>{callingCodes.join(",")}</td>
+      <AlphaCell>{alpha2Code}</AlphaCell>
+      <CallCodeCell>{callingCodes.join(",")}</CallCodeCell>
       <td>{capital}</td>
       <td>{region}</td>
-      <td>
-        <button onClick={() => deleteList(name)}>삭제</button>
-      </td>
+      <DeleteButtonCell>
+        <DeleteButton aria-label="나라 삭제" onClick={() => deleteList(name)}>
+          <span aria-label="x" role="img">
+            ❌
+          </span>
+        </DeleteButton>
+      </DeleteButtonCell>
     </tr>
   );
 };
+
+const AlphaCell = styled.td`
+  text-align: center;
+`;
+
+const CallCodeCell = styled.td`
+  text-align: center;
+  word-break: break-word;
+`;
+
+const DeleteButtonCell = styled.td`
+  text-align: center;
+`;
+
+const DeleteButton = styled.button``;
 
 export default TableRow;

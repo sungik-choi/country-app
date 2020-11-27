@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { ICountry } from "../../reducers/country/types";
@@ -15,6 +16,7 @@ const Table = (): JSX.Element => {
   const countries = useSelector((state: RootState) => state.country.countries);
   const filteredList = useSelector((state: RootState) => state.country.filteredList);
 
+  // const isSearchResultEmpty = filteredList.length === 0 && searchValue.length > 0;
   const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
   const currentList = isSearchValueEmpty ? countries : filteredList;
 
@@ -22,23 +24,54 @@ const Table = (): JSX.Element => {
   const displayedList = useInfiniteScroll<ICountry>({ list: currentList, scrollEdgeRef });
 
   return (
-    <main>
+    <Main>
       {loading ? (
         <p>loading...</p>
       ) : (
-        <table>
-          <caption>World Country Information</caption>
+        <StyledTable>
           <TableHead />
           <tbody>
             {displayedList.map(({ name, ...data }) => (
               <TableRow key={name} data={{ name, ...data }} />
             ))}
           </tbody>
-        </table>
+        </StyledTable>
       )}
       <div ref={scrollEdgeRef}></div>
-    </main>
+    </Main>
   );
 };
+
+const Main = styled.main`
+  max-width: ${({ theme }) => theme.size.maxWidth};
+  width: ${({ theme }) => theme.size.width};
+  margin: 0 auto;
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-radius: ${({ theme }) => theme.size.sm};
+  border: 2px solid ${({ theme }) => theme.color.white2};
+  margin-top: ${({ theme }) => theme.size.lg};
+  margin-bottom: ${({ theme }) => theme.size.xl};
+
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  tr {
+    border-bottom: 1px solid ${({ theme }) => theme.color.white2};
+  }
+
+  td {
+    padding: ${({ theme }) => theme.size.sm} ${({ theme }) => theme.size.md};
+  }
+
+  th {
+    font-weight: bold;
+    padding: ${({ theme }) => theme.size.md} 0;
+  }
+`;
 
 export default Table;

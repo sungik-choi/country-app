@@ -7,7 +7,7 @@ interface IProps<T> {
   offsetY?: number;
 }
 
-const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 200 }: IProps<T>): T[] => {
+const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 }: IProps<T>): T[] => {
   const [hasMore, setHasMore] = useState(false);
   const [currentList, setCurrentList] = useState<T[]>([]);
   const [observerLoading, setObserverLoading] = useState(false);
