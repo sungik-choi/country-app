@@ -1,6 +1,7 @@
 import React from "react";
-import { ICountry, deleteCountry } from "../../reducers/country";
 import { useDispatch } from "react-redux";
+import { ICountry } from "../../reducers/country/types";
+import { deleteCountry } from "../../reducers/country/actions";
 
 interface IProps {
   data: ICountry;

@@ -1,7 +1,8 @@
 import React from "react";
-import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addCountry } from "../../reducers/country";
+import { addCountry } from "../../reducers/country/actions";
+
+import { useForm } from "react-hook-form";
 
 const AddCountryForm = (): JSX.Element => {
   const dispatch = useDispatch();

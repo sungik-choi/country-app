@@ -1,0 +1,62 @@
+import createAction from "../../utils/createAction";
+import { ICountry } from "./types";
+
+interface IAddCountryAction {
+  type: typeof ADD_COUNTRY;
+  payload: ICountry;
+}
+
+interface IDeleteCountryAction {
+  type: typeof DELETE_COUNTRY;
+  payload: string;
+}
+
+interface ISearchCountryAction {
+  type: typeof SEARCH_COUNTRY;
+  payload: string;
+}
+
+interface ISwitchOrderAction {
+  type: typeof SWITCH_ORDER;
+}
+
+interface IGetDataRequest {
+  type: typeof GET_COUNTRY_DATA_REQUEST;
+}
+
+interface IGetDataSuccess {
+  type: typeof GET_COUNTRY_DATA_SUCCESS;
+  payload: ICountry[];
+}
+
+interface IGetDateFailure {
+  type: typeof GET_COUNTRY_DATA_FAILURE;
+  payload: string;
+}
+
+export type CountryActionTypes =
+  | IAddCountryAction
+  | IDeleteCountryAction
+  | ISearchCountryAction
+  | ISwitchOrderAction
+  | IGetDataRequest
+  | IGetDataSuccess
+  | IGetDateFailure;
+
+export const ADD_COUNTRY = "country/ADD_COUNTRY";
+export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
+export const SEARCH_COUNTRY = "country/SEARCH_COUNTRY";
+export const SWITCH_ORDER = "country/SWITCH_ORDER";
+
+export const GET_COUNTRY_DATA_REQUEST = "country/GET_DATA_REQUEST";
+export const GET_COUNTRY_DATA_SUCCESS = "country/GET_DATA_SUCCESS";
+export const GET_COUNTRY_DATA_FAILURE = "country/GET_DATA_FAILURE";
+
+export const addCountry = createAction(ADD_COUNTRY);
+export const deleteCountry = createAction(DELETE_COUNTRY);
+export const searchCountry = createAction(SEARCH_COUNTRY);
+export const switchOrder = createAction(SWITCH_ORDER);
+
+export const getCountryDataRequest = createAction(GET_COUNTRY_DATA_REQUEST);
+export const getCountryDataSuccess = createAction(GET_COUNTRY_DATA_SUCCESS);
+export const getCountryDataFailure = createAction(GET_COUNTRY_DATA_FAILURE);

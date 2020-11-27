@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { ICountry } from "../../reducers/country/types";
+
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import { ICountry } from "../../reducers/country";
+
+import TableHead from "./TableHead";
 import TableRow from "./TableRow";
 
 const Table = (): JSX.Element => {
   const loading = useSelector((state: RootState) => state.country.loading);
-  const headerList = useSelector((state: RootState) => state.country.headerList);
   const searchValue = useSelector((state: RootState) => state.country.searchValue);
 
   const countries = useSelector((state: RootState) => state.country.countries);
@@ -26,13 +28,7 @@ const Table = (): JSX.Element => {
       ) : (
         <table>
           <caption>World Country Information</caption>
-          <thead>
-            <tr>
-              {headerList.map((list) => (
-                <th key={list}>{list}</th>
-              ))}
-            </tr>
-          </thead>
+          <TableHead />
           <tbody>
             {displayedList.map(({ name, ...data }) => (
               <TableRow key={name} data={{ name, ...data }} />

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getCountryList } from "./reducers/country";
+import { getCountryList } from "./reducers/country/thunk";
+
 import Header from "./components/header/Header";
 import Table from "./components/table/Table";
 

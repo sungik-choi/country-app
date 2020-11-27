@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { switchOrder, searchCountry } from "../../reducers/country/actions";
+
 import useDebounce from "../../hooks/useDebounce";
-import { switchOrder, searchCountry } from "../../reducers/country";
 
 const DEBOUNCE_DELAY = 500;
 
