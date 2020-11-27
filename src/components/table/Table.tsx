@@ -29,6 +29,7 @@ const Table = (): JSX.Element => {
         <p>loading...</p>
       ) : (
         <StyledTable>
+          <StyledCaption>나라 정보</StyledCaption>
           <TableHead />
           <tbody>
             {displayedList.map(({ name, ...data }) => (
@@ -46,6 +47,12 @@ const Main = styled.main`
   max-width: ${({ theme }) => theme.size.maxWidth};
   width: ${({ theme }) => theme.size.width};
   margin: 0 auto;
+`;
+
+const StyledCaption = styled.caption`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: ${({ theme }) => theme.size.md};
 `;
 
 const StyledTable = styled.table`

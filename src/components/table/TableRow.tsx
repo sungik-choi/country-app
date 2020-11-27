@@ -21,11 +21,11 @@ const TableRow = ({ data }: IProps): JSX.Element => {
       <td>{capital}</td>
       <td>{region}</td>
       <DeleteButtonCell>
-        <DeleteButton aria-label="나라 삭제" onClick={() => deleteList(name)}>
+        <button aria-label="나라 삭제" onClick={() => deleteList(name)}>
           <span aria-label="x" role="img">
             ❌
           </span>
-        </DeleteButton>
+        </button>
       </DeleteButtonCell>
     </tr>
   );
@@ -43,7 +43,5 @@ const CallCodeCell = styled.td`
 const DeleteButtonCell = styled.td`
   text-align: center;
 `;
-
-const DeleteButton = styled.button``;
 
 export default TableRow;

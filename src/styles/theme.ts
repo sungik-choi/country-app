@@ -6,13 +6,13 @@ const size = {
 
   width: "85%",
   maxWidth: "1200px",
-  headerHeight: "120px",
+  headerHeight: "160px",
   searchInputWidth: "400px",
   inputWidth: "80px",
 
-  nameCell: "35%",
+  nameCell: "30%",
   alphaCell: "10%",
-  callingCodeCell: "10%",
+  callingCodeCell: "15%",
   capitalCell: "20%",
   regionCell: "15%",
   deleteButtonCell: "10%",

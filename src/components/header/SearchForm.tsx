@@ -15,7 +15,7 @@ const SearchForm = (): JSX.Element => {
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
 
   return (
-    <div>
+    <SearchFormWrap>
       <SearchInput
         type="text"
         name="search"
@@ -26,9 +26,13 @@ const SearchForm = (): JSX.Element => {
       <SortButton type="button" aria-label="정렬 순서 변경" onClick={sortOrderChange}>
         정렬 순서 변경
       </SortButton>
-    </div>
+    </SearchFormWrap>
   );
 };
+
+const SearchFormWrap = styled.div`
+  margin-top: ${({ theme }) => theme.size.md};
+`;
 
 const SearchInput = styled.input`
   width: ${({ theme }) => theme.searchInputWidth};
