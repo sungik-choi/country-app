@@ -23,7 +23,7 @@ const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 200 
     const loadEdges = () => {
       const more = currentList.length < list.length;
       setHasMore(more);
-      more && setCurrentList((prevList) => [...list.slice(0, prevList.length + maxNum)]);
+      more && setCurrentList([...list.slice(0, currentList.length + maxNum)]);
     };
 
     const scrollEdgeElem = scrollEdgeRef.current;
