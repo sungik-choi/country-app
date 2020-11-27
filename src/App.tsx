@@ -48,7 +48,7 @@ const App = (): JSX.Element => {
             <input name="capital" placeholder="수도" ref={register({ required: true })} />
             <input name="region" placeholder="대륙" ref={register({ required: true })} />
             {/* {errors.exampleRequired && <span>This field is required</span>} */}
-            <button>나라 세우기</button>
+            <button>나라 추가</button>
           </form>
           <div>
             <input name="search" placeholder="검색어를 입력하세요" type="text" onChange={changeSearchValue} />
