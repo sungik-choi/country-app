@@ -50,7 +50,7 @@ const Main = styled.main`
 `;
 
 const StyledCaption = styled.caption`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: ${({ theme }) => theme.size.md};
 `;
