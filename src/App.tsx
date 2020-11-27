@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountryList, switchOrder, deleteCountry, searchCountry, ICountry, addCountry } from "./reducers/country";
 import { RootState } from "./store";
 import useDebounce from "./hooks/useDebounce";
 import { useForm } from "react-hook-form";
+import useInfiniteScroll from "./hooks/useInfiniteScroll";
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -19,7 +20,9 @@ const App = (): JSX.Element => {
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
 
   const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
-  const displayedList = isSearchValueEmpty ? countries : filteredList;
+  const currentList = isSearchValueEmpty ? countries : filteredList;
+  const scrollEdgeRef = useRef<HTMLDivElement>(null);
+  const displayedList = useInfiniteScroll<ICountry>({ list: currentList, scrollEdgeRef });
 
   const { register, handleSubmit, errors } = useForm();
 
@@ -75,6 +78,7 @@ const App = (): JSX.Element => {
               </tbody>
             ))}
           </table>
+          <div ref={scrollEdgeRef} />
         </>
       )}
     </>
