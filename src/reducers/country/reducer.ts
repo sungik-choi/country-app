@@ -55,7 +55,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
     }
 
     case SEARCH_COUNTRY: {
-      const inputValue = action.payload?.trim()?.toLowerCase() || "";
+      const inputValue = action.payload.trim().toLowerCase() || "";
       const isFiltered = inputValue !== "";
       return {
         ...state,
