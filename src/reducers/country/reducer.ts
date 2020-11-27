@@ -63,7 +63,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         filteredList: isFiltered
           ? state.countries.filter((country) =>
               Object.values(country)
-                .reduce((acc, cur) => {
+                .reduce((acc: string, cur) => {
                   typeof cur === "string" ? (acc += cur) : (acc += cur.join(""));
                   return acc;
                 }, "")
