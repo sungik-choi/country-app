@@ -1,7 +1,9 @@
 import { ASCENDING, DESCENDING } from "../constants/order";
 import createAction from "../utils/createAction";
+import { filteredListByKey, sortDescend, sortAscend } from "../utils/array";
 
 export interface ICountry {
+  [index: string]: string | string[];
   name: string;
   alpha2Code: string;
   callingCodes: string[];
@@ -105,11 +107,6 @@ const initialState: ICountryState = {
   headerList: ["Name", "Alphabet-2", "Calling Code", "Capital", "Region", "Delete"],
 };
 
-// const sortAscend = (arr: any, key: string) => arr.sort((a, b) => (a[key] > b[key] ? -1 : b[key] > a[key] ? 1 : 0))
-// const sortDescend = (arr: any , key: string) => arr.sort((a, b) => (a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0))
-
-// const filteredListByKey = (arr: any, key: string, target: string) => arr.filter((item) => item[key] !== target);
-
 const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {
   console.log(action);
   switch (action.type) {
@@ -125,8 +122,8 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
       const isFiltered = state.searchValue !== "";
       return {
         ...state,
-        countries: state.countries.filter((country) => country.name !== action.payload),
-        filteredList: isFiltered ? state.filteredList.filter((country) => country.name !== action.payload) : [],
+        countries: filteredListByKey(state.countries, "name", action.payload),
+        filteredList: isFiltered ? filteredListByKey(state.filteredList, "name", action.payload) : [],
       };
     }
     case SEARCH_COUNTRY: {
@@ -146,25 +143,26 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         ? {
             ...state,
             order: DESCENDING,
-            countries: [...state.countries].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0)),
-            filteredList: isFiltered
-              ? [...state.filteredList].sort((a, b) => (a.name > b.name ? -1 : b.name > a.name ? 1 : 0))
-              : [],
+            countries: sortDescend(state.countries, "name"),
+            filteredList: isFiltered ? sortDescend(state.filteredList, "name") : [],
           }
         : {
             ...state,
             order: ASCENDING,
-            countries: [...state.countries].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)),
-            filteredList: isFiltered
-              ? [...state.filteredList].sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
-              : [],
+            countries: sortAscend(state.countries, "name"),
+            filteredList: isFiltered ? sortAscend(state.filteredList, "name") : [],
           };
     }
     case GET_COUNTRY_DATA_REQUEST: {
       return { ...state, loading: true, errorMessage: null };
     }
     case GET_COUNTRY_DATA_SUCCESS: {
-      return { ...state, loading: false, errorMessage: null, countries: action.payload };
+      return {
+        ...state,
+        loading: false,
+        errorMessage: null,
+        countries: action.payload,
+      };
     }
     case GET_COUNTRY_DATA_FAILURE: {
       return { ...state, loading: false, errorMessage: action.payload };
