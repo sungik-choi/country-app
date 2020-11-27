@@ -57,6 +57,8 @@ const StyledCaption = styled.caption`
 
 const StyledTable = styled.table`
   width: 100%;
+  table-layout: fixed;
+  word-break: break-all;
   border-radius: ${({ theme }) => theme.size.sm};
   border: 2px solid ${({ theme }) => theme.color.white2};
   margin-top: ${({ theme }) => theme.size.lg};
