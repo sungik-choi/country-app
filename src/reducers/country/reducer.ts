@@ -16,10 +16,22 @@ const initialState: ICountryState = {
   loading: true,
   errorMessage: null,
   searchValue: "",
-  order: ASCENDING,
+  order: {
+    name: ASCENDING,
+    alpha2Code: ASCENDING,
+    callingCodes: ASCENDING,
+    capital: ASCENDING,
+    region: ASCENDING,
+  },
   countries: [],
   filteredList: [],
-  headerList: ["Name", "Alpha2", "Calling Code", "Capital", "Region", "Delete"],
+  headerList: {
+    name: "나라명",
+    alpha2Code: "alpha-2",
+    callingCodes: "숫자코드",
+    capital: "수도",
+    region: "대륙",
+  },
 };
 
 const countryReducer = (state = initialState, action: CountryActionTypes): ICountryState => {
@@ -49,25 +61,33 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         ...state,
         searchValue: inputValue,
         filteredList: isFiltered
-          ? state.countries.filter((country) => country.name.toLowerCase().includes(inputValue))
+          ? state.countries.filter((country) =>
+              Object.values(country)
+                .reduce((acc, cur) => {
+                  typeof cur === "string" ? (acc += cur) : (acc += cur.join(""));
+                  return acc;
+                }, "")
+                .toLowerCase()
+                .includes(inputValue),
+            )
           : [],
       };
     }
 
     case SWITCH_ORDER: {
       const isFiltered = state.searchValue !== "";
-      return state.order === ASCENDING
+      return state.order[action.payload] === ASCENDING
         ? {
             ...state,
-            order: DESCENDING,
-            countries: sortDescend(state.countries, "name"),
-            filteredList: isFiltered ? sortDescend(state.filteredList, "name") : [],
+            order: { ...state.order, [action.payload]: DESCENDING },
+            countries: sortDescend(state.countries, action.payload),
+            filteredList: isFiltered ? sortDescend(state.filteredList, action.payload) : [],
           }
         : {
             ...state,
-            order: ASCENDING,
-            countries: sortAscend(state.countries, "name"),
-            filteredList: isFiltered ? sortAscend(state.filteredList, "name") : [],
+            order: { ...state.order, [action.payload]: ASCENDING },
+            countries: sortAscend(state.countries, action.payload),
+            filteredList: isFiltered ? sortAscend(state.filteredList, action.payload) : [],
           };
     }
 

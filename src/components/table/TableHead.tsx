@@ -1,41 +1,39 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
+import { switchOrder } from "../../reducers/country/actions";
 
 const TableHead = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const sortOrderChange = (key: string) => dispatch(switchOrder(key));
+
   const headerList = useSelector((state: RootState) => state.country.headerList);
+  const order = useSelector((state: RootState) => state.country.order);
 
   return (
     <StyledTableHead>
       <tr>
-        {headerList.map((list) => (
-          <th key={list}>{list}</th>
+        {Object.entries(headerList).map(([key, value]) => (
+          <th key={key} aria-sort={order[key]}>
+            <span>{value}</span>
+            <SortButton aria-label="정렬" onClick={() => sortOrderChange(key)}>
+              정렬
+            </SortButton>
+          </th>
         ))}
+        <th>
+          <span>삭제</span>
+        </th>
       </tr>
     </StyledTableHead>
   );
 };
 
-const StyledTableHead = styled.thead`
-  th:nth-child(1) {
-    width: ${({ theme }) => theme.size.nameCell};
-  }
-  th:nth-child(2) {
-    width: ${({ theme }) => theme.size.alphaCell};
-  }
-  th:nth-child(3) {
-    width: ${({ theme }) => theme.size.callingCodeCell};
-  }
-  th:nth-child(4) {
-    width: ${({ theme }) => theme.size.capitalCell};
-  }
-  th:nth-child(5) {
-    width: ${({ theme }) => theme.size.regionCell};
-  }
-  th:nth-child(6) {
-    width: ${({ theme }) => theme.size.deleteButtonCell};
-  }
+const SortButton = styled.button`
+  margin-left: ${({ theme }) => theme.size.sm};
 `;
+
+const StyledTableHead = styled.thead``;
 
 export default TableHead;

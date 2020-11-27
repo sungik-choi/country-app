@@ -1,5 +1,5 @@
 import createAction from "../../utils/createAction";
-import { ICountry } from "./types";
+import { ICountry, IHeaderList } from "./types";
 
 interface IAddCountryAction {
   type: typeof ADD_COUNTRY;
@@ -18,6 +18,7 @@ interface ISearchCountryAction {
 
 interface ISwitchOrderAction {
   type: typeof SWITCH_ORDER;
+  payload: keyof IHeaderList;
 }
 
 interface IGetDataRequest {
