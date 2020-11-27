@@ -1,12 +1,12 @@
 import { ASCENDING, DESCENDING } from "../../constants/order";
 
 export interface ICountry {
-  [index: string]: string | string[];
-  name: string;
-  alpha2Code: string;
-  callingCodes: string[];
-  capital: string;
-  region: string;
+  readonly [index: string]: string | string[];
+  readonly name: string;
+  readonly alpha2Code: string;
+  readonly callingCodes: string[];
+  readonly capital: string;
+  readonly region: string;
 }
 
 export type HeaderList = {

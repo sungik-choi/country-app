@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
-import { AnyAction, Dispatch } from "redux";
-import { IAction } from "../utils/createAction";
+import { AnyAction, Dispatch, ActionCreator } from "redux";
 
 interface iState {
   state: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const useDebounce = (
-  dispatch: Dispatch<AnyAction>,
-  action: <T>(payload?: T | undefined) => IAction<T>,
-  delay = 300,
-): iState => {
+const useDebounce = (dispatch: Dispatch<AnyAction>, action: ActionCreator<AnyAction>, delay = 300): iState => {
   const [state, setState] = useState("");
 
   useEffect(() => {

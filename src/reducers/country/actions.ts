@@ -1,5 +1,13 @@
-import createAction from "../../utils/createAction";
 import { ICountry } from "./types";
+
+export const ADD_COUNTRY = "country/ADD_COUNTRY";
+export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
+export const SEARCH_COUNTRY = "country/SEARCH_COUNTRY";
+export const SWITCH_ORDER = "country/SWITCH_ORDER";
+
+export const GET_COUNTRY_DATA_REQUEST = "country/GET_DATA_REQUEST";
+export const GET_COUNTRY_DATA_SUCCESS = "country/GET_DATA_SUCCESS";
+export const GET_COUNTRY_DATA_FAILURE = "country/GET_DATA_FAILURE";
 
 interface IAddCountryAction {
   type: typeof ADD_COUNTRY;
@@ -44,20 +52,36 @@ export type CountryActionTypes =
   | IGetDataSuccess
   | IGetDateFailure;
 
-export const ADD_COUNTRY = "country/ADD_COUNTRY";
-export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
-export const SEARCH_COUNTRY = "country/SEARCH_COUNTRY";
-export const SWITCH_ORDER = "country/SWITCH_ORDER";
+export const addCountry = (country: ICountry): IAddCountryAction => ({
+  type: ADD_COUNTRY,
+  payload: country,
+});
 
-export const GET_COUNTRY_DATA_REQUEST = "country/GET_DATA_REQUEST";
-export const GET_COUNTRY_DATA_SUCCESS = "country/GET_DATA_SUCCESS";
-export const GET_COUNTRY_DATA_FAILURE = "country/GET_DATA_FAILURE";
+export const deleteCountry = (name: string): IDeleteCountryAction => ({
+  type: DELETE_COUNTRY,
+  payload: name,
+});
 
-export const addCountry = createAction(ADD_COUNTRY);
-export const deleteCountry = createAction(DELETE_COUNTRY);
-export const searchCountry = createAction(SEARCH_COUNTRY);
-export const switchOrder = createAction(SWITCH_ORDER);
+export const searchCountry = (value: string): ISearchCountryAction => ({
+  type: SEARCH_COUNTRY,
+  payload: value,
+});
 
-export const getCountryDataRequest = createAction(GET_COUNTRY_DATA_REQUEST);
-export const getCountryDataSuccess = createAction(GET_COUNTRY_DATA_SUCCESS);
-export const getCountryDataFailure = createAction(GET_COUNTRY_DATA_FAILURE);
+export const switchOrder = (key: keyof ICountry): ISwitchOrderAction => ({
+  type: SWITCH_ORDER,
+  payload: key,
+});
+
+export const getCountryDataRequest = (): IGetDataRequest => ({
+  type: GET_COUNTRY_DATA_REQUEST,
+});
+
+export const getCountryDataSuccess = (res: ICountry[]): IGetDataSuccess => ({
+  type: GET_COUNTRY_DATA_SUCCESS,
+  payload: res,
+});
+
+export const getCountryDataFailure = (err: string): IGetDateFailure => ({
+  type: GET_COUNTRY_DATA_FAILURE,
+  payload: err,
+});
