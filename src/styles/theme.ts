@@ -7,15 +7,8 @@ const size = {
   width: "85%",
   maxWidth: "1200px",
   headerHeight: "160px",
-  searchInputWidth: "400px",
+  searchInputWidth: "600px",
   inputWidth: "80px",
-
-  nameCell: "30%",
-  alphaCell: "10%",
-  callingCodeCell: "15%",
-  capitalCell: "20%",
-  regionCell: "15%",
-  deleteButtonCell: "10%",
 };
 
 const color = {
