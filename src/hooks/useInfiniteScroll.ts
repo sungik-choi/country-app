@@ -16,14 +16,14 @@ const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 
 
   useEffect(() => {
     setHasMore(list.length > maxNum);
-    setCurrentList((prevList) => [...list.slice(0, prevList.length)]);
+    setCurrentList((prevList) => list.slice(0, prevList.length));
   }, [list, maxNum]);
 
   useEffect(() => {
     const loadEdges = () => {
       const more = currentList.length < list.length;
       setHasMore(more);
-      more && setCurrentList([...list.slice(0, currentList.length + maxNum)]);
+      more && setCurrentList(list.slice(0, currentList.length + maxNum));
     };
 
     const scrollEdgeElem = scrollEdgeRef.current;
