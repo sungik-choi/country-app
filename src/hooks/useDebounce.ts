@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnyAction, Dispatch, ActionCreator } from "redux";
 
 interface iState {
@@ -8,8 +8,13 @@ interface iState {
 
 const useDebounce = (dispatch: Dispatch<AnyAction>, action: ActionCreator<AnyAction>, delay = 300): iState => {
   const [state, setState] = useState("");
+  const loading = useRef(true);
 
   useEffect(() => {
+    if (loading.current) {
+      loading.current = false;
+      return;
+    }
     const timer = setTimeout(() => {
       dispatch(action(state));
     }, delay);
