@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
+import { RootState } from "../../app/store";
 import { switchOrder } from "../../reducers/country/actions";
 
 const TableHead = (): JSX.Element => {

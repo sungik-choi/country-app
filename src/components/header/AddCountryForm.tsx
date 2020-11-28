@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { addCountry } from "../../reducers/country/actions";
 
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 interface INewCountry {
   name: string;
   alpha2Code: string;
@@ -14,16 +14,16 @@ interface INewCountry {
 
 const AddCountryForm = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<INewCountry>();
 
-  const onSubmit = (data: INewCountry, e: any) => {
+  const onSubmit: SubmitHandler<INewCountry> = (data: INewCountry, e) => {
     dispatch(
       addCountry({
         ...data,
         callingCodes: data.callingCodes.split(","),
       }),
     );
-    e.target.reset();
+    if (e) e.target.reset();
   };
 
   return (

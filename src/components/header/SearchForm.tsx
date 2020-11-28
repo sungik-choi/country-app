@@ -9,7 +9,6 @@ const DEBOUNCE_DELAY = 500;
 
 const SearchForm = (): JSX.Element => {
   const dispatch = useDispatch();
-
   const { setState: setInputValue } = useDebounce(dispatch, searchCountry, DEBOUNCE_DELAY);
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
 
