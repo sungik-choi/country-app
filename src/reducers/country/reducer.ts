@@ -10,7 +10,7 @@ import {
   GET_COUNTRY_DATA_FAILURE,
 } from "./actions";
 import { ASCENDING, DESCENDING } from "../../constants/order";
-import { filteredListByKey, sortDescend, sortAscend } from "../../utils/array";
+import { filteredListByKey, sortDescend, sortAscend } from "../../utils/utils";
 
 const initialState: ICountryState = {
   loading: true,
