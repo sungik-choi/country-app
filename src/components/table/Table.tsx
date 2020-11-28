@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { ICountry } from "../../reducers/country/types";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import TableHead from "./TableHead";
 import TableRow from "./TableRow";
@@ -20,7 +19,7 @@ const Table = (): JSX.Element => {
 
   const scrollEdgeRef = useRef<HTMLDivElement>(null);
 
-  const displayedList = useInfiniteScroll<ICountry>({ list: currentList, scrollEdgeRef });
+  const displayedList = useInfiniteScroll({ list: currentList, scrollEdgeRef });
 
   return (
     <Main>
