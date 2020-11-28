@@ -1,7 +1,7 @@
 import { getCountryDataRequest, getCountryDataSuccess, getCountryDataFailure } from "./actions";
-import { v4 as uuidv4 } from "uuid";
-import { ICountry, ICountryExceptId } from "./types";
 import { AnyAction, Dispatch } from "redux";
+import { ICountry, ICountryExceptId } from "./types";
+import { v4 as uuidv4 } from "uuid";
 
 export const getCountryList = async (dispatch: Dispatch<AnyAction>): Promise<void> => {
   dispatch(getCountryDataRequest());
