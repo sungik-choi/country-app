@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
-import { switchOrder } from "../../reducers/country/actions";
 import { Order } from "../../reducers/country/types";
+import { switchOrder } from "../../reducers/country/actions";
 import { ASCENDING } from "../../constants/order";
 
 const TableHead = (): JSX.Element => {
