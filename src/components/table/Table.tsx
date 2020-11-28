@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { ICountry } from "../../reducers/country/types";
-
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-
 import TableHead from "./TableHead";
 import TableRow from "./TableRow";
 

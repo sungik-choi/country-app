@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { searchCountry } from "../../reducers/country/actions";
-
 import useDebounce from "../../hooks/useDebounce";
 
 const DEBOUNCE_DELAY = 500;
