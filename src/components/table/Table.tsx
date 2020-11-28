@@ -9,6 +9,7 @@ import TableRow from "./TableRow";
 
 const Table = (): JSX.Element => {
   const loading = useSelector((state: RootState) => state.country.loading);
+  const errorMessage = useSelector((state: RootState) => state.country.errorMessage);
   const searchValue = useSelector((state: RootState) => state.country.searchValue);
 
   const countries = useSelector((state: RootState) => state.country.countries);
@@ -23,6 +24,7 @@ const Table = (): JSX.Element => {
 
   return (
     <Main>
+      {errorMessage && <p>{errorMessage}</p>}
       {loading ? (
         <p>loading...</p>
       ) : (
