@@ -4,19 +4,13 @@ import { useDispatch } from "react-redux";
 import { addCountry } from "../../reducers/country/actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-interface INewCountry {
-  name: string;
-  alpha2Code: string;
-  callingCodes: string;
-  capital: string;
-  region: string;
-}
+import { HeaderList } from "../../reducers/country/types";
 
 const AddCountryForm = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm<INewCountry>();
+  const { register, handleSubmit } = useForm<HeaderList>();
 
-  const onSubmit: SubmitHandler<INewCountry> = (data: INewCountry, e) => {
+  const onSubmit: SubmitHandler<HeaderList> = (data: HeaderList, e) => {
     dispatch(
       addCountry({
         ...data,
