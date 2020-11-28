@@ -20,6 +20,7 @@ const Table = (): JSX.Element => {
   const currentList = isSearchValueEmpty ? countries : filteredList;
 
   const scrollEdgeRef = useRef<HTMLDivElement>(null);
+
   const displayedList = useInfiniteScroll<ICountry>({ list: currentList, scrollEdgeRef });
 
   return (
