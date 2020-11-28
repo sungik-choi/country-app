@@ -16,7 +16,6 @@ const Table = (): JSX.Element => {
   const countries = useSelector((state: RootState) => state.country.countries);
   const filteredList = useSelector((state: RootState) => state.country.filteredList);
 
-  // const isSearchResultEmpty = filteredList.length === 0 && searchValue.length > 0;
   const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
   const currentList = isSearchValueEmpty ? countries : filteredList;
 
@@ -32,8 +31,8 @@ const Table = (): JSX.Element => {
           <StyledCaption>나라 정보</StyledCaption>
           <TableHead />
           <tbody>
-            {displayedList.map(({ name, ...data }) => (
-              <TableRow key={name} data={{ name, ...data }} />
+            {displayedList.map((data) => (
+              <TableRow key={data.id} data={data} />
             ))}
           </tbody>
         </StyledTable>

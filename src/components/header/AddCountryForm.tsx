@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addCountry } from "../../reducers/country/actions";
 
 import { SubmitHandler, useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 interface INewCountry {
   name: string;
   alpha2Code: string;
@@ -20,6 +21,7 @@ const AddCountryForm = (): JSX.Element => {
     dispatch(
       addCountry({
         ...data,
+        id: uuidv4(),
         callingCodes: data.callingCodes.split(","),
       }),
     );

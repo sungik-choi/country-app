@@ -1,4 +1,6 @@
 import { getCountryDataRequest, getCountryDataSuccess, getCountryDataFailure } from "./actions";
+import { v4 as uuidv4 } from "uuid";
+import { ICountryExceptId } from "./types";
 
 export const getCountryList = async (dispatch: any) => {
   dispatch(getCountryDataRequest());
@@ -10,7 +12,9 @@ export const getCountryList = async (dispatch: any) => {
       },
     );
     const json = await response.json();
-    dispatch(getCountryDataSuccess(json));
+    const data = json.map((eachData: ICountryExceptId) => ({ id: uuidv4(), ...eachData }));
+
+    dispatch(getCountryDataSuccess(data));
   } catch (e) {
     dispatch(getCountryDataFailure(e));
   }

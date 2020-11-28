@@ -49,8 +49,8 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
       const isFiltered = state.searchValue !== "";
       return {
         ...state,
-        countries: filteredListByKey(state.countries, "name", action.payload),
-        filteredList: isFiltered ? filteredListByKey(state.filteredList, "name", action.payload) : [],
+        countries: filteredListByKey(state.countries, "id", action.payload),
+        filteredList: isFiltered ? filteredListByKey(state.filteredList, "id", action.payload) : [],
       };
     }
 
@@ -61,7 +61,7 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         ...state,
         searchValue: inputValue,
         filteredList: isFiltered
-          ? state.countries.filter((country) =>
+          ? state.countries.filter(({ id, ...country }) =>
               Object.values(country)
                 .reduce((acc: string, cur) => {
                   typeof cur === "string" ? (acc += cur) : (acc += cur.join(""));

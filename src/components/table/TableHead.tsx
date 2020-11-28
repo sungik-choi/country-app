@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { switchOrder } from "../../reducers/country/actions";
+import { Order } from "../../reducers/country/types";
 
 const TableHead = (): JSX.Element => {
   const dispatch = useDispatch();
-  const sortOrderChange = (key: string) => dispatch(switchOrder(key));
+  const sortOrderChange = (key: keyof Order) => dispatch(switchOrder(key));
 
   const headerList = useSelector((state: RootState) => state.country.headerList);
   const order = useSelector((state: RootState) => state.country.order);

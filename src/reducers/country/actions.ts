@@ -1,4 +1,4 @@
-import { ICountry } from "./types";
+import { ICountry, Order } from "./types";
 
 export const ADD_COUNTRY = "country/ADD_COUNTRY";
 export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
@@ -26,7 +26,7 @@ interface ISearchCountryAction {
 
 interface ISwitchOrderAction {
   type: typeof SWITCH_ORDER;
-  payload: keyof ICountry;
+  payload: keyof Order;
 }
 
 interface IGetDataRequest {
@@ -67,7 +67,7 @@ export const searchCountry = (value: string): ISearchCountryAction => ({
   payload: value,
 });
 
-export const switchOrder = (key: keyof ICountry): ISwitchOrderAction => ({
+export const switchOrder = (key: keyof Order): ISwitchOrderAction => ({
   type: SWITCH_ORDER,
   payload: key,
 });

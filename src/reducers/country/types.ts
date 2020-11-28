@@ -1,20 +1,22 @@
 import { ASCENDING, DESCENDING } from "../../constants/order";
 
 export interface ICountry {
-  readonly [index: string]: string | string[];
-  readonly name: string;
-  readonly alpha2Code: string;
-  readonly callingCodes: string[];
-  readonly capital: string;
-  readonly region: string;
+  id: string;
+  name: string;
+  alpha2Code: string;
+  callingCodes: string[];
+  capital: string;
+  region: string;
 }
 
+export type ICountryExceptId = Omit<ICountry, "id">;
+
 export type HeaderList = {
-  [p in keyof ICountry]: string;
+  [p in keyof ICountryExceptId]: string;
 };
 
 export type Order = {
-  [p in keyof ICountry]: typeof ASCENDING | typeof DESCENDING;
+  [p in keyof ICountryExceptId]: typeof ASCENDING | typeof DESCENDING;
 };
 
 export interface ICountryState {

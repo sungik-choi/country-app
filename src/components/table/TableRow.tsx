@@ -8,9 +8,9 @@ interface IProps {
   data: ICountry;
 }
 
-const TableRow = ({ data }: IProps): JSX.Element => {
+const TableRow = ({ data: { id, ...rest } }: IProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { name, alpha2Code, callingCodes, capital, region }: ICountry = data;
+  const { name, alpha2Code, callingCodes, capital, region } = rest;
   const deleteList = (name: string) => dispatch(deleteCountry(name));
 
   return (
@@ -21,7 +21,7 @@ const TableRow = ({ data }: IProps): JSX.Element => {
       <td>{capital}</td>
       <td>{region}</td>
       <DeleteButtonCell>
-        <button aria-label="나라 삭제" onClick={() => deleteList(name)}>
+        <button aria-label="나라 삭제" onClick={() => deleteList(id)}>
           <span aria-label="x" role="img">
             ❌
           </span>
