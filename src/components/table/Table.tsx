@@ -20,7 +20,7 @@ const Table = (): JSX.Element => {
 
   const scrollEdgeRef = useRef<HTMLDivElement>(null);
 
-  const displayedList = useInfiniteScroll<ICountry>({ list: currentList, scrollEdgeRef });
+  const displayedList = useInfiniteScroll({ list: currentList, scrollEdgeRef });
 
   return (
     <Main>
