@@ -63,13 +63,10 @@ const countryReducer = (state = initialState, action: CountryActionTypes): ICoun
         filteredList: isFiltered
           ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
             state.countries.filter(({ id, ...country }) =>
-              Object.values(country)
-                .reduce((acc, cur) => {
-                  typeof cur === "string" ? (acc += cur) : (acc += cur.join(""));
-                  return acc;
-                }, "")
-                .toLowerCase()
-                .includes(inputValue),
+              Object.values(country).some((value: string | string[]) => {
+                if (typeof value !== "string") value = value.join("");
+                return value.toLowerCase().includes(inputValue);
+              }),
             )
           : [],
       };
