@@ -8,22 +8,21 @@ interface IProps<T> {
 }
 
 const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 }: IProps<T>): T[] => {
-  const [hasMore, setHasMore] = useState(false);
   const [currentList, setCurrentList] = useState<T[]>([]);
-  const [observerLoading, setObserverLoading] = useState(false);
-
   const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    setHasMore(list.length > maxNum);
+    if (list.length === 0) return;
     setCurrentList((prevList) => list.slice(0, prevList.length));
   }, [list, maxNum]);
 
   useEffect(() => {
+    if (list.length === 0) return;
+
     const loadEdges = () => {
-      const more = currentList.length < list.length;
-      setHasMore(more);
-      more && setCurrentList(list.slice(0, currentList.length + maxNum));
+      setCurrentList((prevList) =>
+        prevList.length < list.length ? list.slice(0, prevList.length + maxNum) : prevList,
+      );
     };
 
     const scrollEdgeElem = scrollEdgeRef.current;
@@ -34,19 +33,14 @@ const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 
     };
 
     observer.current = new IntersectionObserver((entries) => {
-      if (!hasMore) return;
       entries.forEach((entry) => {
-        if (!observerLoading) {
-          setObserverLoading(true);
-          return;
-        }
         if (entry.isIntersecting) loadEdges();
       });
     }, option);
 
     if (scrollEdgeElem !== null) observer.current.observe(scrollEdgeElem);
     return () => observer.current?.disconnect();
-  });
+  }, [list, maxNum, offsetY, scrollEdgeRef]);
 
   return currentList;
 };
