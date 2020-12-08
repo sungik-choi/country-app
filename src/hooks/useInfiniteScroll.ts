@@ -13,7 +13,7 @@ const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 
 
   useEffect(() => {
     setCurrentList((prevList) => list.slice(0, prevList.length));
-  }, [list, maxNum]);
+  }, [list]);
 
   useEffect(() => {
     const loadEdges = () => {
