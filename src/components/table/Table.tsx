@@ -9,17 +9,14 @@ import TableRow from "./TableRow";
 const Table = (): JSX.Element => {
   const loading = useSelector((state: RootState) => state.country.loading);
   const errorMessage = useSelector((state: RootState) => state.country.errorMessage);
-  const searchValue = useSelector((state: RootState) => state.country.searchValue);
-
-  const countries = useSelector((state: RootState) => state.country.countries);
-  const filteredList = useSelector((state: RootState) => state.country.filteredList);
-
-  const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
-  const currentList = isSearchValueEmpty ? countries : filteredList;
+  const countryList = useSelector((state: RootState) => {
+    const { searchValue, countries, filteredList } = state.country;
+    const isSearchValueEmpty = filteredList.length === 0 && searchValue.length === 0;
+    return isSearchValueEmpty ? countries : filteredList;
+  });
 
   const scrollEdgeRef = useRef<HTMLDivElement>(null);
-
-  const displayedList = useInfiniteScroll({ list: currentList, scrollEdgeRef });
+  const displayedList = useInfiniteScroll({ list: countryList, scrollEdgeRef });
 
   return (
     <Main>
