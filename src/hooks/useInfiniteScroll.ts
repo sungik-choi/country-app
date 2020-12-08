@@ -12,13 +12,10 @@ const useInfiniteScroll = <T>({ list, scrollEdgeRef, maxNum = 50, offsetY = 300 
   const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    if (list.length === 0) return;
     setCurrentList((prevList) => list.slice(0, prevList.length));
   }, [list, maxNum]);
 
   useEffect(() => {
-    if (list.length === 0) return;
-
     const loadEdges = () => {
       setCurrentList((prevList) =>
         prevList.length < list.length ? list.slice(0, prevList.length + maxNum) : prevList,
